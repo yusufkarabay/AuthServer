@@ -8,6 +8,7 @@ namespace AuthServer.Core.Entities
 {
     public class UserRefreshToken
     {
+
         public string UserId { get; set; }
         public string RefreshTokenCode { get; set; }
         public DateTime ExpirationTime { get; set; }

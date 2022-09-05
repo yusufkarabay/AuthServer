@@ -10,12 +10,12 @@ namespace AuthServer.Core.Repositories
     public interface IGenericRepository<T> where T : class
     {
         Task<T> GetByIdAsync(Guid id);
-        IQueryable<T> GetAllAsync();
+        IQueryable<T> GetAll();
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
-        Task UpdateAsync(T entity);
+        T Update(T entity);
         Task DeleteAsync(T entity);
-        Task<bool> ExistsAsync(Guid id);
-        Task<List<T>> GetByIdListAsync(Guid id);
+
+    
     }
 }
