@@ -21,6 +21,6 @@ namespace AuthServer.Core.Services
         Task<CustomResponseDto<NoDataDto>> RevokeRefreshToken(string refreshToken); 
 
         //client tipi az olduğu için appjsonda tutacağız. ordan gelen id ve secret kontrolünü burada işleyeceğiz
-        Task<CustomResponseDto<ClientTokenDto>> CreateTokenByClient(ClientLoginDto clientLoginDto);
+        CustomResponseDto<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto);
     }
 }

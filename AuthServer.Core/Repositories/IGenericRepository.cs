@@ -13,7 +13,7 @@ namespace AuthServer.Core.Repositories
         IQueryable<T> GetAll();
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task AddAsync(T entity);
-        T Update(T entity);
+        T UpdateAsync(T entity);
         Task DeleteAsync(T entity);
 
     
