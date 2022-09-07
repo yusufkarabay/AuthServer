@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace AuthServer.Repositories.Repositories
 {
@@ -27,18 +28,14 @@ namespace AuthServer.Repositories.Repositories
             await _dbSet.AddAsync(entity);
         }
 
-        public async Task DeleteAsync(T entity)
+        public void Delete(T entity)
         {
             _dbContext.Remove(entity);
         }
-
-
-        public  IQueryable<T> GetAll()
+        public IQueryable<T> GetAllAsync()
         {
-            return  _dbSet.AsNoTracking().AsQueryable();
+            return _dbSet.AsNoTracking().AsQueryable();
         }
-    
-
         public async Task<T> GetByIdAsync(Guid id)
         {
             var entity = await _dbSet.FindAsync(id);
@@ -49,18 +46,15 @@ namespace AuthServer.Repositories.Repositories
             }
             return entity;
         }
-
-
-
-        public T UpdateAsync(T entity)
+        public T Update(T entity)
         {
             _dbContext.Entry(entity).State=EntityState.Modified;
             return entity;
         }
 
-        public  IQueryable<T> Where(System.Linq.Expressions.Expression<Func<T, bool>> expression)
+        public IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-            return  _dbSet.Where(expression);
+            return _dbSet.Where(expression);
         }
     }
 }
