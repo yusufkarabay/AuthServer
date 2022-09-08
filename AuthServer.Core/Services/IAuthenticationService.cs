@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AuthServer.Core.Services
 {
-    public interface IAauthenticationService
+    public interface IAuthenticationService
     {
 
         //access token oluşturur
