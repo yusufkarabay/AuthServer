@@ -39,7 +39,7 @@ namespace AuthServer.Services.Services
 
 
         //accces token oluşturma bu metod içerisinde yapılacak
-        public async Task<CustomResponseDto<TokenDto>> CreateAccesTokenAsync(LoginDto loginDto)
+        public async Task<CustomResponseDto<TokenDto>> CreateTokenAsync(LoginDto loginDto)
         {
             //giriş işlemi başarılı değilse null dğer dönüyor.
             if (loginDto==null) throw new ArgumentNullException(nameof(loginDto));

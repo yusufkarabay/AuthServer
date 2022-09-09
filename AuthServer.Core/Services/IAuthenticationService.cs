@@ -11,8 +11,8 @@ namespace AuthServer.Core.Services
     public interface IAuthenticationService
     {
 
-        //access token oluşturur
-        Task<CustomResponseDto<TokenDto>> CreateAccesTokenAsync(LoginDto loginDto);
+        // token oluşturur
+        Task<CustomResponseDto<TokenDto>> CreateTokenAsync(LoginDto loginDto);
 
         //refresh token oluşturur
         Task<CustomResponseDto<TokenDto>> CreateTokenByRefreshTokenAsync(string refreshToken);
