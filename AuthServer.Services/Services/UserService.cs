@@ -54,7 +54,7 @@ namespace AuthServer.Services.Services
 
             //başarılıysa userappdtoyuı dönüyoruz !!!!! userappdtodan usernamei kaldırdım!!!! bunu daha sonra incele
             ///username tc olacağı için
-            return CustomResponseDto<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 200);
+            return CustomResponseDto<UserAppDto>.Success(ObjectMapper.Mapper.Map<UserAppDto>(user), 201);
         }
 
 

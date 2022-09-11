@@ -13,7 +13,7 @@ namespace AuthServer.Services.Mapping
     {
         public DtoMapper()
         {
-            CreateMap<UserApp, UserAppDto>().ReverseMap();
+            CreateMap<UserAppDto,UserApp>().ReverseMap();
         }
     }
 }

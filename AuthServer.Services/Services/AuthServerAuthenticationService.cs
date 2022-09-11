@@ -16,24 +16,23 @@ using System.Threading.Tasks;
 
 namespace AuthServer.Services.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthServerAuthenticationService : IAuthServerAuthenticationService
     {
         private readonly List<Client> _clients;
         private readonly ITokenService _tokenService;
         private readonly UserManager<UserApp> _userManager;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGenericRepository<UserRefreshToken> _userRefreshTokenService;
+        private readonly IUserRefreshTokenRepoistory _userRefreshToken;
 
-        public AuthenticationService(IOptions<List<Client>> optionsClient, ITokenService tokenService, UserManager<UserApp> userManager, IUnitOfWork unitOfWork, IGenericRepository<UserRefreshToken> userRefreshTokenService)
+        public AuthServerAuthenticationService(IOptions<List<Client>> optionsClient, ITokenService tokenService, UserManager<UserApp> userManager, IUnitOfWork unitOfWork, IUserRefreshTokenRepoistory userRefreshTokenRepoistory)
         {
             _clients=optionsClient.Value;
             _tokenService=tokenService;
             _userManager=userManager;
             _unitOfWork=unitOfWork;
-            _userRefreshTokenService=userRefreshTokenService;
+            _userRefreshToken=userRefreshTokenRepoistory;
         }
        
-        
         //token service katmanınında token oluşturma metotlarını bu katmanda çağırıp kullanacağız
 
 
@@ -64,7 +63,7 @@ namespace AuthServer.Services.Services
             var token = _tokenService.CreateToken(user);
 
             //refresh tokenı veritabanına kaydedeceğim. fakat daha önceden var mı onu kontrol ediyorum.
-            var userRefreshToken = await _userRefreshTokenService.Where(x => x.UserId==user.Id).SingleOrDefaultAsync();
+            var userRefreshToken = await _userRefreshToken.Where(x => x.UserId==user.Id).SingleOrDefaultAsync();
 
             //refreshtoken yoksa 
             if (userRefreshToken==null)
@@ -72,7 +71,7 @@ namespace AuthServer.Services.Services
                 //refreshtoken oluşturacağız
                 //user elimizde var idsini kullanıyoruz.
                 //5 satır yukarıda token da oluşturmuştuk. Bu tokenden gelen refreshtokenve süresini de kullanıyoruz
-                await _userRefreshTokenService.AddAsync(new UserRefreshToken { UserId=user.Id, RefreshTokenCode=token.RefreshToken, ExpirationTime=token.RefreshTokenExpiration });
+                await _userRefreshToken.AddAsync(new UserRefreshToken { UserId=user.Id, RefreshTokenCode=token.RefreshToken, ExpirationTime=token.RefreshTokenExpiration });
             }
             else
             {
@@ -116,7 +115,7 @@ namespace AuthServer.Services.Services
         public async Task<CustomResponseDto<TokenDto>> CreateTokenByRefreshTokenAsync(string refreshToken)
         {
             //geln refresh tokenı veritabandından kontrol ediyoruz
-            var existRefreshToken = await _userRefreshTokenService.Where(x => x.RefreshTokenCode==refreshToken).SingleOrDefaultAsync();
+            var existRefreshToken = await _userRefreshToken.Where(x => x.RefreshTokenCode==refreshToken).SingleOrDefaultAsync();
             //yoksa
             if (existRefreshToken==null)
             {
@@ -157,17 +156,17 @@ namespace AuthServer.Services.Services
 
 
         //refreshtokenı null yapma metodu
-        public async Task<CustomResponseDto<NoDataDto>> RevokeRefreshToken(string refreshToken)
+        public async Task<CustomResponseDto<NoDataDto>> RevokeRefreshTokenAsync(string refreshToken)
         {
             //refreshtokenın var olup olmadığını sorguluyoruz
-            var existRefreshToken = await _userRefreshTokenService.Where(x => x.RefreshTokenCode==refreshToken).SingleOrDefaultAsync();
+            var existRefreshToken = await _userRefreshToken.Where(x => x.RefreshTokenCode==refreshToken).SingleOrDefaultAsync();
             if (existRefreshToken==null)
             {
                 //yoksa 404  dönüyoruz
                 return CustomResponseDto<NoDataDto>.Fail("Refresh Token Not Found", 404, true);
             }
             //refresh token varsa null yapıyoruz
-            _userRefreshTokenService.Delete(existRefreshToken);
+            _userRefreshToken.Delete(existRefreshToken);
 
             //veritabanına yansıtıyoruz
             await _unitOfWork.SaveChangesAsync();
