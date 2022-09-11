@@ -12,12 +12,12 @@ namespace AuthServer.Repositories.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     {
-        private readonly DbContext _dbContext;
+        protected readonly AuthServerDbContext _dbContext;
 
         private readonly DbSet<T> _dbSet;
 
 
-        public GenericRepository(DbContext dbContext, DbSet<T> dbSet)
+        public GenericRepository(AuthServerDbContext dbContext)
         {
             _dbContext=dbContext;
             _dbSet=dbContext.Set<T>();

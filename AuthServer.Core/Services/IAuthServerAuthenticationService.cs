@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AuthServer.Core.Services
 {
-    public interface IAuthenticationService
+    public interface IAuthServerAuthenticationService
     {
 
         // token oluşturur
@@ -18,7 +18,7 @@ namespace AuthServer.Core.Services
         Task<CustomResponseDto<TokenDto>> CreateTokenByRefreshTokenAsync(string refreshToken);
 
         //bu kullanıcı için refresh token varsa null yap şeklinde kodlayacağız
-        Task<CustomResponseDto<NoDataDto>> RevokeRefreshToken(string refreshToken); 
+        Task<CustomResponseDto<NoDataDto>> RevokeRefreshTokenAsync(string refreshToken); 
 
         //client tipi az olduğu için appjsonda tutacağız. ordan gelen id ve secret kontrolünü burada işleyeceğiz
         CustomResponseDto<ClientTokenDto> CreateTokenByClient(ClientLoginDto clientLoginDto);

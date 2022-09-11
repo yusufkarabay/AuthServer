@@ -5,18 +5,20 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AuthServer.Repositories
 {
-    public class AppDbContext : IdentityDbContext<UserApp, IdentityRole, string>
+    public class AuthServerDbContext : IdentityDbContext<UserApp, IdentityRole, string>
 
     {
-        public AppDbContext(DbContextOptions<AppDbContext> dbContextOptions) : base(dbContextOptions)
+        public AuthServerDbContext(DbContextOptions<AuthServerDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
+        
 
         public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 
@@ -27,3 +29,4 @@ namespace AuthServer.Repositories
         }
     }
 }
+

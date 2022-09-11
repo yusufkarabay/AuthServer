@@ -14,7 +14,8 @@ namespace AuthServer.Repositories.Configurations
         public void Configure(EntityTypeBuilder<UserRefreshToken> builder)
         {
             builder.HasKey(x => x.UserId);
-            builder.Property(x => x.RefreshTokenCode).IsRequired().HasMaxLength(200);
+            builder.Property(x => x.RefreshTokenCode).IsRequired();
+
 
         }
     }

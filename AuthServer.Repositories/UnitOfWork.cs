@@ -12,7 +12,7 @@ namespace AuthServer.Repositories
     {
         private readonly DbContext _dbContext;
 
-        public UnitOfWork(DbContext dbContext)
+        public UnitOfWork(AuthServerDbContext dbContext)
         {
             _dbContext=dbContext;
         }
